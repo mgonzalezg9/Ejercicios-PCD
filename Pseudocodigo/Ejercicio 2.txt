@@ -1,0 +1,41 @@
+Problema: Generación y búsqueda de palabras
+
+Recursos compartidos no compartibles: pantalla
+
+Condiciones de sincronización: 
+	CS: Busca las palabras que empiezan por la primera letra de mi palabra si todas las palabras se han generado ya
+
+Sección crítica:
+	SC: Asociada a pantalla
+
+Algoritmo:
+Hilo i:
+
+Generar palabra entre 1 y 10 caracteres
+
+Esperar un tiempo aleatorio
+
+Guardar palabra correspondiente a mi hilo en el array
+
+// PE: Exclusión mutua contador
+Incrementar número de palabras generadas
+
+Si el número de palabras generadas es 30 entonces
+	// CS: Manda señal
+// PS: Liberar la exclusión mutua del contador
+
+// CS: Esperar la generación de todas las palabras
+
+// CS: Manda señal (Despertar encadenado)
+
+Buscar las palabras que empiezan por la misma letra que mi palabra
+
+// PE: Esperar la exclusión mutua de la pantalla
+
+Imprimir id
+Imprimir las palabras generadas por todos los hilos
+Imprimir la palabra generada por mi hilo
+Imprimir las palabaras que empiezan por la misma letra que la mía
+Imprimir terminando
+
+// PS: Liberar la exclusión mutua de la pantalla

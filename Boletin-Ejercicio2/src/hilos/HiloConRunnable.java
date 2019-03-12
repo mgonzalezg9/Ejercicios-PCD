@@ -1,0 +1,103 @@
+package hilos;
+
+import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
+
+import principal.Principal;
+import java.util.LinkedList;
+
+public class HiloConRunnable implements Runnable {
+	public static int contador = 0;
+
+	private int id;
+	private char[] palabra;
+	private ReentrantLock cerrojo;
+
+	public HiloConRunnable(ReentrantLock cerrojo) {
+		id = contador++;
+		this.cerrojo = cerrojo;
+	}
+
+	@Override
+	public void run() {
+		// Generar palabra entre 1 y 10 caracteres
+		int longitud = (int) (Math.random() * 10) + 1;
+		palabra = new char[longitud];
+
+		for (int i = 0; i < palabra.length; i++) {
+			palabra[i] = (char) ('a' + Math.random() * 100 % 26);
+		}
+
+		// Esperar un tiempo aleatorio
+		try {
+			Thread.sleep((long) (Math.random() * 10));
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		// Guardar palabra correspondiente a mi hilo
+		principal.Principal.palabras.add(this.palabra);
+
+		// PE: Exclusión mutua contador
+		cerrojo.lock();
+
+		// Incrementar número de palabras generadas
+		Principal.cont++;
+
+		if (Principal.cont == 30) {
+			// Manda la señal de sincronización
+			Principal.signal.release();
+		}
+
+		// PS: Liberar la exclusión mutua del contador
+		cerrojo.unlock();
+
+		// CS: Esperar la generación de todas las palabras
+		try {
+			Principal.signal.acquire();
+			Principal.signal.release();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		// Buscar las palabras que empiezan por la misma letra que mi palabra
+		List<char[]> primLetra = new LinkedList<>();
+
+		principal.Principal.palabras.stream().filter(s -> String.valueOf(s).startsWith(String.valueOf(palabra[0])))
+				.forEach(s -> primLetra.add(s));
+
+		// PE: Pedir exclusión mutua
+		try {
+			Principal.mutex.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		// Imprimir
+		System.out.println("Hilo " + id);
+
+		System.out.print("Todas las palabras = ");
+
+		for (char[] cadena : Principal.palabras) {
+			System.out.print(String.valueOf(cadena) + " ");
+		}
+
+		System.out.println();
+
+		System.out.println("Palabra hilo " + id + " = " + String.valueOf(palabra));
+
+		System.out.print("Palabras que empiezan con mi letra = ");
+
+		for (char[] cs : primLetra) {
+			System.out.print(String.valueOf(cs) + " ");
+		}
+
+		System.out.println();
+
+		System.out.println("Terminando Hilo " + id + "\n");
+
+		// PS: Liberar exclusión mutua
+		Principal.mutex.release();
+	}
+
+}
