@@ -1,0 +1,63 @@
+Problema: Buffer de 10 elementos de 2 tipos distintos.
+
+Recursos compartidos no compartibles: buffer y pantalla
+
+Condiciones de sincronización: 
+	CS1: Un consumidor de un elemento de tipo 1 necesita que haya elementos de tipo 1 en el buffer.
+	CS2: Un consumidor de un elemento de tipo 2 necesita que haya elementos de tipo 2 en el buffer.
+	CS3: Un productor necesita que haya espacio en el buffer.
+
+Sección crítica:
+	SC1: Asociada a pantalla
+	SC2: Asociada a la inserción en el buffer
+	SC3: Asociada a la extracción de un elemento de tipo 1 del buffer
+	SC4: Asociada a la extracción de un elemento de tipo 2 del buffer
+
+Algoritmo:
+Monitor:
+	Recursos: buffer
+	Métodos ofrecidos: insertarTipo1, insertarTipo2, extraerTipo1 y extraerTipo2
+
+	insertarTipo1:
+		// CS3: Esperar a que haya espacio en el buffer
+		Insertar el elemento en el buffer
+		// CS1: Mandar señal 
+
+	insertarTipo2:
+		// CS3: Esperar a que haya espacio en el buffer
+		Insertar el elemento en el buffer
+		// CS2: Mandar señal 		
+
+	extraerTipo1:
+		// CS1: Esperar a que haya elementos de tipo 1
+		Extraer elemento de tipo1
+		// CS3: Mandar señal
+
+	extraerTipo2:
+		// CS2: Esperar a que haya elementos de tipo 2
+		Extraer elemento de tipo2
+		// CS3: Mandar señal
+		
+	imprimirBuffer:
+		Recorrer el buffer e imprimir cada uno de sus elementos
+		
+HiloProductorTipo1:
+	repetir 20 veces
+		Producir elemento de tipo 1
+		Insertar elemento haciendo uso del monitor
+		
+HiloProductorTipo2:
+	repetir 20 veces
+		Producir elemento de tipo 2
+		Insertar elemento haciendo uso del monitor
+		
+HiloConsumidorTipo1:
+	repetir 20 veces
+		Extraer elemento de tipo 1 haciendo uso del monitor
+		Consumir elemento
+		
+HiloConsumidorTipo2:
+	repetir 20 veces
+		Extraer elemento de tipo 2 haciendo uso del monitor
+		Consumir elemento
+						
