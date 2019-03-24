@@ -17,11 +17,13 @@ public class Principal {
 		for (int i = 0; i < NUM_HILOS; i++) {
 			consumidores[i] = new HiloConsumidor(m);
 		}
-		
 		for (int i = 0; i < NUM_HILOS; i++) {
 			productores[i] = new HiloProductor(m);
 		}
 		
+		// Formato de salida
+		System.out.println("INSERCION/EXTRACCION \tTIPO \tARRAY RESULTANTE [Item(Tipo), ...]");
+
 		// Ejecución de los hilos
 		for (int i = 0; i < NUM_HILOS; i++) {
 			consumidores[i].start();

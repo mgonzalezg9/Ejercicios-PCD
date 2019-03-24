@@ -33,6 +33,7 @@ public class Monitor {
 				hueco.await();
 
 			// Insertar el elemento en el buffer
+			System.out.print("INSERCION \t\t" + elem.getTipo() + " \t");
 			buffer.add(elem);
 
 			if (elem.getTipo() == 1) {
@@ -69,6 +70,9 @@ public class Monitor {
 					lleno2.await();
 				}
 			}
+			
+			System.out.print("EXTRACCION \t\t" + tipo + " \t");
+			
 
 			// Extraer elemento del tipo pasado como parámetro
 			for (Iterator<Elemento> iterator = buffer.iterator(); iterator.hasNext();) {
@@ -83,8 +87,8 @@ public class Monitor {
 					case 2:
 						t2--;
 						break;
-
 					}
+					break;
 				}
 			}
 
@@ -102,7 +106,7 @@ public class Monitor {
 	}
 
 	private void imprimirBuffer() {
-		// TODO Recorrer el buffer e imprimir cada uno de sus elementos
-		System.out.println("t1 = " + t1 + "\tt2 = " + t2);
+		// Impresión de cada uno de los elementos del buffer
+		System.out.println(buffer);
 	}
 }
