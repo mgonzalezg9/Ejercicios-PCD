@@ -51,3 +51,4 @@ HiloConsumidorTipo2:
 	repetir 20 veces
 		Extraer elemento de tipo 2 haciendo uso del monitor
 		Consumir elemento
+						
