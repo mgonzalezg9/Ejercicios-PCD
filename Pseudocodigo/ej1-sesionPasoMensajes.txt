@@ -1,0 +1,51 @@
+Ejercicio 1 - Guión 4
+Buzones: informarTipo, solicitarInfoMiTipo, buzonRespuesta y buzonPantalla
+
+Hilos:
+HiloTipo (0:NPROCS-1):
+	Obtener el tipo
+	// Mandar mensaje al buzon informando de mi tipo
+	// Preguntar al servidor cuantos hilos de mi tipo hay
+	// Pedir Pantalla
+	Imprimir el numero de hilos de mi tipo
+	// Liberar Pantalla
+
+	---------------------------------------------------------
+
+	send(InformarTipo, msg(mitipo));
+	send(SolicitarInfoMiTipo, msg(mitipo, buzonRespuesta));
+	recibir(buzonRespuesta, msg(cuantosdemitipo))
+	send(pedirPantalla, msg(mibuzonrespuesta))
+	recibir(mibuzonrespuesta, null)
+	imprimir("Soy " + miId + " y hay " + cuantosdemitipo);
+	send(liberarPantalla, null)
+
+HiloControlador:
+	repetir
+		select
+			Esperar mensajes del buzon1
+			Incrementar numero de hilos de tipo 1
+		or
+			Esperar mensajes del buzon2
+			Incrementar numero de hilos de tipo 2
+	mientras queden hilos por enviar a un buzon
+
+	------------------------------------------------------------------
+
+	select
+		informados < NPROC =>
+		recibir(informarTipo, elTipo)
+		cuenta[elTipo]++
+		informados++
+	or
+		informados == NPROC =>
+		recibir(solicitarInfoMiTipo, msg(mitipo, buzonRespuesta))
+		send(buzonRespuesta, cuenta[mitipo])
+	or 
+		recibir(liberarPantalla, null)
+		pantallaLibre = true
+	or
+		pantallaLibre == false =>
+		recibir(pedirPantalla, msg(buzonrespuesta))
+		pantallaLibre = false
+		send(buzonrespuesta, null)
