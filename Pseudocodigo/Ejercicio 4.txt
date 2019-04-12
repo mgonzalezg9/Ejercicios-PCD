@@ -9,20 +9,23 @@ Buzones HiloCliente: buzonRespuesta
 
 Algoritmo:
 HiloCliente:
-	Generar un trabajo
-	// Solicito impresora
-	Enviar i (identificador hilo) al buzón pedirImpresora
-	// Espero que me devuelvan la impresora a usar y el tiempo asignado
-	Recibir tiempo asignado e impresora en buzonRespuesta
-	Uso impresora el tiempo que me han asignado
-	// Libero impresora
-	Enviar nulo al buzón liberarImpresora
-	// Pido pantalla
-	Enviar i (identificador hilo) al buzón pedirPantalla
-	// Espero a que me digan que está libre
-	Recibir nulo en buzón buzonRespuesta
-	// Libero la pantalla
-	Enviar nulo al buzón liberarPantalla
+	repetir
+		Generar un trabajo
+		// Solicito impresora
+		Enviar i (identificador hilo) al buzón pedirImpresora
+		// Espero que me devuelvan la impresora a usar y el tiempo asignado
+		Recibir tiempo asignado e impresora en buzonRespuesta
+		Uso impresora el tiempo que me han asignado
+		// Libero impresora
+		Enviar impresora usada al buzón liberarImpresora
+		// Pido pantalla
+		Enviar i (identificador hilo) al buzón pedirPantalla
+		// Espero a que me digan que está libre
+		Recibir nulo en buzón buzonRespuesta
+		Imprimo información sobre este hilo
+		// Libero la pantalla
+		Enviar nulo al buzón liberarPantalla
+	5 veces
 
 HiloControlador:
 	repetir
@@ -31,13 +34,14 @@ HiloControlador:
 			Recibir en pedirImpresora i (identificador hilo)
 			Calcula el tiempo de impresión y la impresora
 			Si está libre la impresora asignada 
+				Marco la impresora como usada
 				// Se devuelve la impresora y el tiempo asignados
 				Enviar al buzón buzonesRespuesta[i] la impresora y el tiempo
 			si no 
-				se añade a la cola de esa impresora i (identificador hilo)
+				se añade a la cola de esa impresora i (identificador hilo) y su tiempo
 	
 			// Recibo liberación de impresora
-			Recibir nulo en el buzón liberarImpresora
+			Recibir impresora en el buzón liberarImpresora
 			Marco la impresora como libre
 			Si hay alguien esperando en la cola de esa impresora 
 				// Se le saca de la cola y se le manda su impresora y su tiempo (para que después lo imprima)
