@@ -3,17 +3,19 @@ package hilos;
 public class HiloConRunnable implements Runnable {
 	private static int contadorHilos;
 	private static Impresion impresora = new Impresion();
-	
+
 	private int[][] A;
 	private int[] cont;
 	private int id;
-	
+
+	// Constructor con la inicialización de los atributos
 	public HiloConRunnable() {
 		A = new int[10][10];
 		cont = new int[10];
+		// Según el valor del contador del número de hilos se le asigna el id al hilo
 		this.id = ++contadorHilos;
 	}
-	
+
 	@Override
 	public void run() {
 		for (int i = 0; i < 10; i++) {
@@ -24,16 +26,16 @@ public class HiloConRunnable implements Runnable {
 					cont[A[j][k]]++;
 				}
 			}
-			
-			// Imprime la informaci�n
+
+			// Imprime la informaci�n
 			impresora.imprimir(id, A, cont);
-			
+
 			for (int j = 0; j < cont.length; j++) {
 				cont[j] = 0;
 			}
-			
+
 		}
-		
+
 	}
 
 }

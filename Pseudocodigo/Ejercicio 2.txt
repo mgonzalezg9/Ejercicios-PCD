@@ -11,31 +11,29 @@ Sección crítica:
 Algoritmo:
 Hilo i:
 
-Generar palabra entre 1 y 10 caracteres
+	Generar palabra entre 1 y 10 caracteres
 
-Esperar un tiempo aleatorio
+	Esperar un tiempo aleatorio
 
-Guardar palabra correspondiente a mi hilo en el array
+	Guardar palabra correspondiente a mi hilo en el array
 
-// PE: Exclusión mutua contador
-Incrementar número de palabras generadas
+	// PE: Exclusión mutua contador
+	Incrementar número de palabras generadas
 
-Si el número de palabras generadas es 30 entonces
-	// CS: Manda señal
-// PS: Liberar la exclusión mutua del contador
+	Si el número de palabras generadas es 30 entonces
+		// CS: Manda señal
+	// PS: Liberar la exclusión mutua del contador
 
-// CS: Esperar la generación de todas las palabras
+	// CS: Esperar la generación de todas las palabras
 
-// CS: Manda señal (Despertar encadenado)
+	Buscar las palabras que empiezan por la misma letra que mi palabra
 
-Buscar las palabras que empiezan por la misma letra que mi palabra
+	// PE: Esperar la exclusión mutua de la pantalla
 
-// PE: Esperar la exclusión mutua de la pantalla
+	Imprimir id
+	Imprimir las palabras generadas por todos los hilos
+	Imprimir la palabra generada por mi hilo
+	Imprimir las palabras que empiezan por la misma letra que la mía
+	Imprimir terminando
 
-Imprimir id
-Imprimir las palabras generadas por todos los hilos
-Imprimir la palabra generada por mi hilo
-Imprimir las palabaras que empiezan por la misma letra que la mía
-Imprimir terminando
-
-// PS: Liberar la exclusión mutua de la pantalla
+	// PS: Liberar la exclusión mutua de la pantalla

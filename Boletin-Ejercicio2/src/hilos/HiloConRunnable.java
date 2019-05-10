@@ -7,12 +7,17 @@ import principal.Principal;
 import java.util.LinkedList;
 
 public class HiloConRunnable implements Runnable {
+	// Constante
 	public static int contador = 0;
 
+	// Atributos
 	private int id;
+	// La palabra la guardaremos como una array de caracteres para poder generar de
+	// forma aleatoria cada caracter.
 	private char[] palabra;
 	private ReentrantLock cerrojo;
 
+	// Constructor
 	public HiloConRunnable(ReentrantLock cerrojo) {
 		id = contador++;
 		this.cerrojo = cerrojo;
@@ -38,23 +43,24 @@ public class HiloConRunnable implements Runnable {
 		// Guardar palabra correspondiente a mi hilo
 		principal.Principal.palabras.add(this.palabra);
 
-		// PE: Exclusión mutua contador
+		// PE: Exclusiï¿½n mutua contador
 		cerrojo.lock();
 
-		// Incrementar número de palabras generadas
+		// Incrementar nï¿½mero de palabras generadas
 		Principal.cont++;
 
 		if (Principal.cont == 30) {
-			// Manda la señal de sincronización
+			// Manda la seï¿½al de sincronizaciï¿½n
 			Principal.signal.release();
 		}
 
-		// PS: Liberar la exclusión mutua del contador
+		// PS: Liberar la exclusiï¿½n mutua del contador
 		cerrojo.unlock();
 
-		// CS: Esperar la generación de todas las palabras
+		// CS: Esperar la generaciï¿½n de todas las palabras
 		try {
 			Principal.signal.acquire();
+			// Despertar encadenado
 			Principal.signal.release();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -66,7 +72,7 @@ public class HiloConRunnable implements Runnable {
 		principal.Principal.palabras.stream().filter(s -> String.valueOf(s).startsWith(String.valueOf(palabra[0])))
 				.forEach(s -> primLetra.add(s));
 
-		// PE: Pedir exclusión mutua
+		// PE: Pedir exclusiï¿½n mutua
 		try {
 			Principal.mutex.acquire();
 		} catch (InterruptedException e) {
@@ -96,7 +102,7 @@ public class HiloConRunnable implements Runnable {
 
 		System.out.println("Terminando Hilo " + id + "\n");
 
-		// PS: Liberar exclusión mutua
+		// PS: Liberar exclusiï¿½n mutua
 		Principal.mutex.release();
 	}
 

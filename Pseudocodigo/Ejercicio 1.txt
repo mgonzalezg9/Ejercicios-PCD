@@ -1,30 +1,14 @@
-Hilo hiloi;
-variables
-	A : array [1..10, 1..10] de Entero
-	id : Cadena de Caracter
-	cont: array [0..9] de Entero
-programa
+Algoritmo:
+Principal
+	Inicializo los 3 hilos
+	Lanzo los 3 hilos
+Hiloi
 	repetir 10 veces
-		// Rellena el array con valores aleatorios
-		para cada casilla de A hacer
-			generarNumeroAleatorio(casilla)
+		Rellenar el array con valores aleatorios
+		Contar la cantidad de casillas con cada número en el array
 	
-		// Cuenta la cantidad de casillas con cada número en el array
-		para cada casilla de cont hacer
-			contar(A, casilla)
-	
-		/* Acceso protegido de la escritura en pantalla */
-		si isOcupada(SC) entonces
-			bloquearEsteHilo()
-
-		// Imprime información sobre el hilo y el array	
-		escribir(id)
-		escribir(A)
-		para cada casilla de cont hacer
-			escribir(casilla)
-		escribir(id)
+		// PE: Pedir EM 
+		Imprime información sobre el hilo y el array	
+		// PS: Liberar EM
 		
-		setLibre(SC)
-		si hilosBloqueados > 0 entonces
-			desbloquearUnHilo()
-fin_programa
+

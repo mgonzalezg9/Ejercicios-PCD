@@ -3,8 +3,10 @@ package hilos;
 import monitores.Monitor;
 
 public abstract class Hilo extends Thread {
+	// Contador del numero de hilos creados
 	private static int cont = 0;
 
+	// Todos los hilos tienen acceso al mismo monitor
 	private Monitor monitor;
 	private final int tipo;
 	
@@ -21,7 +23,7 @@ public abstract class Hilo extends Thread {
 		return monitor;
 	}
 	
-	// Método plantilla
+	// Mï¿½todo plantilla
 	public abstract void accionHilo();
 	
 	@Override

@@ -15,16 +15,19 @@ public class Monitor {
 	private volatile int t1;
 	private volatile int t2;
 
+	// Cerrojo y variables Condition para controlar las Condiciones de SincronizaciÃ³n
 	private Lock l = new ReentrantLock();
 	private Condition lleno1 = l.newCondition();
 	private Condition lleno2 = l.newCondition();
 	private Condition hueco = l.newCondition();
 
+	// Constructor
 	public Monitor() {
 		buffer = new LinkedList<>();
 		t1 = t2 = 0;
 	}
 
+	// MÃ©todo de insercciÃ³n ofrecido por el monitor
 	public void insertar(Elemento elem) throws InterruptedException {
 		l.lock();
 		try {
@@ -38,11 +41,11 @@ public class Monitor {
 
 			if (elem.getTipo() == 1) {
 				t1++;
-				// CS1: Mandar señal
+				// CS1: Mandar seï¿½al
 				lleno1.signal();
 			} else {
 				t2++;
-				// CS2: Mandar señal
+				// CS2: Mandar seï¿½al
 				lleno2.signal();
 			}
 
@@ -55,6 +58,7 @@ public class Monitor {
 
 	}
 
+	// MÃ©todo de extracciÃ³n ofrecido por el monitor
 	public Elemento extraer(int tipo) throws InterruptedException {
 		l.lock();
 		try {
@@ -74,9 +78,10 @@ public class Monitor {
 			System.out.print("EXTRACCION \t\t" + tipo + " \t");
 			
 
-			// Extraer elemento del tipo pasado como parámetro
+			// Extraer elemento del tipo pasado como parï¿½metro
 			for (Iterator<Elemento> iterator = buffer.iterator(); iterator.hasNext();) {
 				elem = (Elemento) iterator.next();
+				// Si el elemento es de mi tipo lo borro del buffer
 				if (elem.getTipo() == tipo) {
 					iterator.remove();
 					switch (tipo) {
@@ -92,7 +97,7 @@ public class Monitor {
 				}
 			}
 
-			// CS3: Mandar señal
+			// CS3: Mandar seï¿½al
 			hueco.signal();
 
 			// Llamada a imprimir para visualizar el estado del buffer
@@ -106,7 +111,7 @@ public class Monitor {
 	}
 
 	private void imprimirBuffer() {
-		// Impresión de cada uno de los elementos del buffer
+		// Impresiï¿½n de cada uno de los elementos del buffer
 		System.out.println(buffer);
 	}
 }
