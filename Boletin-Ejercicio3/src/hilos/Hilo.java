@@ -2,6 +2,7 @@ package hilos;
 
 import monitores.Monitor;
 
+// Clase abstracta con la funcionalidad básica de un hilo
 public abstract class Hilo extends Thread {
 	// Contador del numero de hilos creados
 	private static int cont = 0;
@@ -23,12 +24,11 @@ public abstract class Hilo extends Thread {
 		return monitor;
 	}
 	
-	// Mï¿½todo plantilla
+	// Metodo plantilla
 	public abstract void accionHilo();
 	
 	@Override
 	public void run() {
-		//System.out.println(toString());
 		for (int i = 0; i < 20; i++) {
 			// Dependiendo de si es productor o consumidor realiza una accion u otra
 			accionHilo();

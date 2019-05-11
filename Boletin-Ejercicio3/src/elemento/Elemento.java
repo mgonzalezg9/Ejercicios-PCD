@@ -1,8 +1,9 @@
 package elemento;
 
+// Clase con la representación de un elemento
 public class Elemento {
-	private int item; // valor del ï¿½tem producido que podrï¿½ ser cualquier valor entero
-	private int tipo; // puede tomar valores 1 ï¿½ 2 segï¿½n el tipo del que sea
+	private int item; // valor del item producido que podria ser cualquier valor entero
+	private int tipo; // puede tomar valores 1 o 2 segun el tipo del que sea
 
 	public Elemento(int item, int tipo) {
 		this.item = item;
@@ -17,7 +18,7 @@ public class Elemento {
 		return tipo;
 	}
 	
-	// MÃ©todo para imprimir por pantalla un elemento y detallar sus campos
+	// Metodo para imprimir por pantalla un elemento y detallar sus campos
 	@Override
 	public String toString() {
 		return item + "(" + tipo + ')';
