@@ -4,6 +4,7 @@ import hilos.HiloConRunnable;
 
 public class Principal {
 
+	// Lanzamiento de los hilos
 	public static void main(String[] args) {
 		Runnable a = new HiloConRunnable();
 		Runnable b = new HiloConRunnable();
